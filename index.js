@@ -154,8 +154,7 @@ function handleEvent(event) {
 2. 未滿15歲首次申辦，須附戶口名簿與監護人證件  
 3. 無法辦理或撤件酌收 $400 手續費`;
 } else if (msg.includes('台胞') || msg.includes('台胞證')) {
-  return client.replyMessage(event.replyToken, taibaoFlex);
-}
+  const taiBaoText = `📗【台胞證辦理說明】
 🔷 成人 / 兒童（5年效期）：$1700 / 10工作天  
 🔷 遺失補發：$3000 / 8工作天  
 🔷 急件加價：$1000
@@ -170,13 +169,11 @@ function handleEvent(event) {
 1. 初次辦理需本人到場核對身分  
 2. 台胞卡過期、遺失需附報案證明  
 3. 未滿16歲須由監護人陪同辦理`;
-  } else {
-    replyText = `你說的是：${event.message.text}`;
-  }
-  return client.replyMessage(event.replyToken, {
-    type: 'text',
-    text: replyText,
-  });
+
+  return client.replyMessage(event.replyToken, [
+    { type: 'text', text: taiBaoText },
+    taibaoFlex
+  ]);
 }
 
 const port = process.env.PORT || 3000;
