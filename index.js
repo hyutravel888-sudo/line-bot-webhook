@@ -12,7 +12,11 @@ const client = new line.Client(config);
 app.post('/webhook', line.middleware(config), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
-    .then((result) => res.json(result));
+    .then((result) => res.json(result))
+    .catch((err) => {
+      console.error('Webhook error:', err);
+      res.status(500).end();  // 關鍵補上這行
+    });
 });
 
 function handleEvent(event) {
