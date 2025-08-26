@@ -174,7 +174,14 @@ function handleEvent(event) {
     { type: 'text', text: taiBaoText },
     taibaoFlex
   ]);
+} else {
+  replyText = `你說的是：${event.message.text}`;
 }
+
+return client.replyMessage(event.replyToken, {
+  type: 'text',
+  text: replyText,
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
