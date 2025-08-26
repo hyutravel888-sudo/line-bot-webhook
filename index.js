@@ -8,6 +8,92 @@ const config = {
 
 const app = express();
 const client = new line.Client(config);
+const taibaoFlex = {
+  type: "flex",
+  altText: "台胞證辦理資訊",
+  contents: {
+    type: "bubble",
+    hero: {
+      type: "image",
+      url: "https://i.imgur.com/jylTNUK.png", // 暫時圖片
+      size: "full",
+      aspectRatio: "20:13",
+      aspectMode: "cover"
+    },
+    body: {
+      type: "box",
+      layout: "vertical",
+      spacing: "md",
+      contents: [
+        {
+          type: "text",
+          text: "📗 台胞證辦理",
+          weight: "bold",
+          size: "xl",
+          wrap: true
+        },
+        {
+          type: "text",
+          text: "首次申辦或補辦遺失、換發台胞證皆可協助",
+          size: "sm",
+          color: "#555555",
+          wrap: true
+        },
+        {
+          type: "separator",
+          margin: "md"
+        },
+        {
+          type: "box",
+          layout: "vertical",
+          spacing: "sm",
+          margin: "md",
+          contents: [
+            {
+              type: "text",
+              text: "📌 準備資料：",
+              weight: "bold",
+              size: "sm",
+              wrap: true
+            },
+            {
+              type: "text",
+              text: "1️⃣ 身分證正本\n2️⃣ 戶口名簿正本\n3️⃣ 護照正本\n4️⃣ 2 吋照片 2 張\n5️⃣ 其他特殊資料請另洽",
+              size: "sm",
+              color: "#333333",
+              wrap: true
+            },
+            {
+              type: "text",
+              text: "💡 請親至門市提交正本資料，我們將協助送件。",
+              size: "sm",
+              color: "#ff5551",
+              wrap: true,
+              margin: "md"
+            }
+          ]
+        }
+      ]
+    },
+    footer: {
+      type: "box",
+      layout: "vertical",
+      spacing: "sm",
+      contents: [
+        {
+          type: "button",
+          style: "primary",
+          color: "#00B900",
+          action: {
+            type: "message",
+            label: "我想辦理台胞證",
+            text: "我想辦理台胞證"
+          }
+        }
+      ]
+    }
+  }
+};
 
 app.post('/webhook', line.middleware(config), (req, res) => {
   Promise
@@ -67,9 +153,9 @@ function handleEvent(event) {
 1. 本人需親自至門市辦理，現場核對資料  
 2. 未滿15歲首次申辦，須附戶口名簿與監護人證件  
 3. 無法辦理或撤件酌收 $400 手續費`;
-  } else if (msg.includes('台胞') || msg.includes('台胞證')) {
-    replyText = `📗【台胞證辦理說明】
-
+} else if (msg.includes('台胞') || msg.includes('台胞證')) {
+  return client.replyMessage(event.replyToken, taibaoFlex);
+}
 🔷 成人 / 兒童（5年效期）：$1700 / 10工作天  
 🔷 遺失補發：$3000 / 8工作天  
 🔷 急件加價：$1000
