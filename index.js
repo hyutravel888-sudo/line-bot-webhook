@@ -173,7 +173,6 @@ function handleEvent(event) {
   } else {
     replyText = `你說的是：${event.message.text}`;
   }
-
   return client.replyMessage(event.replyToken, {
     type: 'text',
     text: replyText,
