@@ -2,16 +2,17 @@ const express = require('express');
 const line = require('@line/bot-sdk');
 
 const config = {
-  channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
-  channelSecret: process.env.LINE_CHANNEL_SECRET,
+  channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
+  channelSecret: process.env.CHANNEL_SECRET,
 };
 
 const app = express();
+const client = new line.Client(config);
 
 app.post('/webhook', line.middleware(config), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
-    .then(result => res.json(result));
+    .then((result) => res.json(result));
 });
 
 function handleEvent(event) {
@@ -23,7 +24,6 @@ function handleEvent(event) {
   return client.replyMessage(event.replyToken, echo);
 }
 
-const client = new line.Client(config);
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`LINE Bot webhook is running on port ${port}`);
